@@ -9,9 +9,6 @@ package ija.ija2023.homework1.common;
  * Interface representing environment, in which robots move
  */
 public interface Environment {
-    int width = 0;
-    int height = 0;
-
     /**
      * Adds robot to his position
      * @param robot robot to be added

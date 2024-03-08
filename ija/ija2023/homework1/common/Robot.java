@@ -6,9 +6,6 @@
 package ija.ija2023.homework1.common;
 
 public interface Robot {
-    Position pos = null;
-    int angle = 0;
-
     /**
      * Gets rotation angle of the robot
      * @return rotation angle
