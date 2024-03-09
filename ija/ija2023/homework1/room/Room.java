@@ -55,8 +55,8 @@ public class Room extends Object implements Environment {
 
     @Override
     public boolean constainsPosition(Position pos) {
-        return (pos.getRow() >= 0 && pos.getRow() < this.rows &&
-                pos.getCol() >= 0 && pos.getCol() < this.cols);
+        return (pos.getRow() >= 0 && pos.getRow() <= this.rows &&
+                pos.getCol() >= 0 && pos.getCol() <= this.cols);
     }
 
     @Override

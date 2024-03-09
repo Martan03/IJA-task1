@@ -83,16 +83,10 @@ public class ControlledRobot extends Object implements Robot {
         int y = 0;
         if (this.angle > 90 && this.angle < 270)
             y = 1;
-        else if (this.angle > 270 && this.angle <= 360 &&
-                 this.angle >= 0 && this.angle < 90)
+        else if ((this.angle > 270 && this.angle <= 360) ||
+                 (this.angle >= 0 && this.angle < 90))
             y = -1;
 
         return new Position(this.pos.getRow() + y, this.pos.getCol() + x);
-    }
-
-    private boolean validPos(Position pos) {
-        return (this.env.constainsPosition(pos) &&
-                !this.env.obstacleAt(pos) &&
-                !this.env.robotAt(pos));
     }
 }

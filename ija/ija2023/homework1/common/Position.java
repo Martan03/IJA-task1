@@ -40,8 +40,11 @@ public class Position extends Object {
 
     @Override
     public boolean equals(Object o) {
-        // TODO
-        return false;
+        if (!(o instanceof Position))
+            return false;
+
+        Position p = (Position) o;
+        return p.getRow() == this.row && p.getCol() == this.col;
     }
 
     @Override
