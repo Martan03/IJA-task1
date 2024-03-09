@@ -5,6 +5,8 @@
 
 package ija.ija2023.homework1.room;
 
+import java.util.ArrayList;
+
 import ija.ija2023.homework1.common.Environment;
 import ija.ija2023.homework1.common.Obstacle;
 import ija.ija2023.homework1.common.Position;
@@ -16,7 +18,9 @@ import ija.ija2023.homework1.common.Robot;
 public class Room extends Object implements Environment {
     int rows;
     int cols;
-    Object[][] board;
+
+    ArrayList<Obstacle> obstacles;
+    ArrayList<Robot> robots;
 
     /**
      * Creates new Room
@@ -26,7 +30,9 @@ public class Room extends Object implements Environment {
     private Room(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        this.board = new Object[rows][cols];
+
+        this.obstacles = new ArrayList<>();
+        this.robots = new ArrayList<>();
     }
 
     /**
@@ -49,7 +55,7 @@ public class Room extends Object implements Environment {
         if (!constainsPosition(pos) || !isEmpty(pos))
             return false;
 
-        this.board[pos.getRow()][pos.getCol()] = robot;
+        this.robots.add(robot);
         return true;
     }
 
@@ -65,16 +71,22 @@ public class Room extends Object implements Environment {
         if (!constainsPosition(pos) || !isEmpty(pos))
             return false;
 
-        this.board[pos.getRow()][pos.getCol()] = new Obstacle(this, pos);
+        this.obstacles.add(new Obstacle(this, pos));
         return true;
     }
 
     @Override
     public boolean obstacleAt(int row, int col) {
-        if (!constainsPosition(new Position(row, col)))
+        Position pos = new Position(row, col);
+        if (!constainsPosition(pos))
             return false;
 
-        return this.board[row][col] instanceof Obstacle;
+        for (Obstacle o : this.obstacles) {
+            if (pos.equals(o.getPosition())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -82,15 +94,25 @@ public class Room extends Object implements Environment {
         if (!constainsPosition(p))
             return false;
 
-        return this.board[p.getRow()][p.getCol()] instanceof Obstacle;
+        for (Obstacle o : this.obstacles) {
+            if (p.equals(o.getPosition())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean robotAt(Position p) {
-        if (!constainsPosition(p))
+         if (!constainsPosition(p))
             return false;
 
-        return this.board[p.getRow()][p.getCol()] instanceof ControlledRobot;
+        for (Robot r : this.robots) {
+            if (p.equals(r.getPosition())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -99,6 +121,6 @@ public class Room extends Object implements Environment {
      * @return true when empty
      */
     private boolean isEmpty(Position p) {
-        return this.board[p.getRow()][p.getCol()] == null;
+        return !obstacleAt(p) && !robotAt(p);
     }
 }
