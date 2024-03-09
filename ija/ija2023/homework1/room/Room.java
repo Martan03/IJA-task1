@@ -46,7 +46,7 @@ public class Room extends Object implements Environment {
     @Override
     public boolean addRobot(Robot robot) {
         Position pos = robot.getPosition();
-        if (!isInside(pos) || !isEmpty(pos))
+        if (!constainsPosition(pos) || !isEmpty(pos))
             return false;
 
         this.board[pos.getRow()][pos.getCol()] = robot;
@@ -55,13 +55,14 @@ public class Room extends Object implements Environment {
 
     @Override
     public boolean constainsPosition(Position pos) {
-        return isInside(pos) && this.board[pos.getRow()][pos.getCol()] != null;
+        return (pos.getRow() >= 0 && pos.getRow() < this.rows &&
+                pos.getCol() >= 0 && pos.getCol() < this.cols);
     }
 
     @Override
     public boolean createObstacleAt(int row, int col) {
         Position pos = new Position(row, col);
-        if (!isInside(pos) || !isEmpty(pos))
+        if (!constainsPosition(pos) || !isEmpty(pos))
             return false;
 
         this.board[pos.getRow()][pos.getCol()] = new Obstacle(this, pos);
@@ -70,7 +71,7 @@ public class Room extends Object implements Environment {
 
     @Override
     public boolean obstacleAt(int row, int col) {
-        if (!isInside(row, col))
+        if (!constainsPosition(new Position(row, col)))
             return false;
 
         return this.board[row][col] instanceof Obstacle;
@@ -78,7 +79,7 @@ public class Room extends Object implements Environment {
 
     @Override
     public boolean obstacleAt(Position p) {
-        if (!isInside(p))
+        if (!constainsPosition(p))
             return false;
 
         return this.board[p.getRow()][p.getCol()] instanceof Obstacle;
@@ -86,30 +87,10 @@ public class Room extends Object implements Environment {
 
     @Override
     public boolean robotAt(Position p) {
-        if (!isInside(p))
+        if (!constainsPosition(p))
             return false;
 
         return this.board[p.getRow()][p.getCol()] instanceof ControlledRobot;
-    }
-
-    /**
-     * Checks whether given position is inside of the room
-     * @param row row to be checked
-     * @param col column to be checked
-     * @return true when position is in room
-     */
-    private boolean isInside(int row, int col) {
-        return row >= 0 && row < this.rows && col >= 0 && col < this.cols;
-    }
-
-    /**
-     * Checks whether given position is inside of the room
-     * @param p position to be checked
-     * @return true when position is in room
-     */
-    private boolean isInside(Position p) {
-        return (p.getRow() >= 0 && p.getRow() < this.rows &&
-                p.getCol() >= 0 && p.getCol() < this.cols);
     }
 
     /**
