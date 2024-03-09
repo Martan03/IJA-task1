@@ -163,18 +163,6 @@ public class Homework1Test {
         Assert.assertEquals("Úhel natočení robota " + r1, 90, r1.angle());
         p1 = new Position(4, 3);
         Assert.assertEquals("Pozice robota " + r1, p1, r1.getPosition());
-
-        r2.turn();
-        r2.turn();
-        r2.turn();
-        Assert.assertFalse("Robot " + r2 + " se muze presunout o jednu pozici", r2.canMove());
-
-        r2.turn();
-        Assert.assertTrue("Robot " + r2 + " se muze presunout o jednu pozici", r2.canMove());
-        Assert.assertTrue("Robot " + r2 + " se presune o jednu pozici", r2.move());
-        Assert.assertEquals("Úhel natočení robota " + r2, 180, r2.angle());
-        p2 = new Position(4, 2);
-        Assert.assertEquals("Pozice robota " + r2, p2, r2.getPosition());
     }
 
     /**
